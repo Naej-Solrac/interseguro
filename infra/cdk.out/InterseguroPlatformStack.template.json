@@ -1,0 +1,2000 @@
+{
+ "Parameters": {
+  "JwtSecret": {
+   "Type": "String",
+   "Description": "JWT secret usado por go-api",
+   "NoEcho": true
+  },
+  "AdminUsername": {
+   "Type": "String",
+   "Default": "jean",
+   "Description": "Usuario admin del login de go-api"
+  },
+  "AdminPassword": {
+   "Type": "String",
+   "Description": "Password admin del login de go-api",
+   "NoEcho": true
+  },
+  "GoImageTag": {
+   "Type": "String",
+   "Default": "latest",
+   "Description": "Tag de imagen docker para go-api en ECR"
+  },
+  "NodeImageTag": {
+   "Type": "String",
+   "Default": "latest",
+   "Description": "Tag de imagen docker para node-api en ECR"
+  },
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Resources": {
+  "GoApiRepository7A7A239D": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "ImageScanningConfiguration": {
+     "ScanOnPush": true
+    },
+    "LifecyclePolicy": {
+     "LifecyclePolicyText": "{\"rules\":[{\"rulePriority\":1,\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":15},\"action\":{\"type\":\"expire\"}}]}"
+    },
+    "RepositoryName": "interseguro-go-api",
+    "RepositoryPolicyText": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiRepository/Resource"
+   }
+  },
+  "NodeApiRepository1C5E4D7A": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "ImageScanningConfiguration": {
+     "ScanOnPush": true
+    },
+    "LifecyclePolicy": {
+     "LifecyclePolicyText": "{\"rules\":[{\"rulePriority\":1,\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":15},\"action\":{\"type\":\"expire\"}}]}"
+    },
+    "RepositoryName": "interseguro-node-api",
+    "RepositoryPolicyText": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiRepository/Resource"
+   }
+  },
+  "NodeApiLambdaServiceRole649EDC8E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiLambda/ServiceRole/Resource"
+   }
+  },
+  "NodeApiLambdaE1B53810": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "ImageUri": {
+      "Fn::Join": [
+       "",
+       [
+        {
+         "Fn::Select": [
+          4,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::GetAtt": [
+              "NodeApiRepository1C5E4D7A",
+              "Arn"
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        ".dkr.ecr.",
+        {
+         "Fn::Select": [
+          3,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::GetAtt": [
+              "NodeApiRepository1C5E4D7A",
+              "Arn"
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        ".",
+        {
+         "Ref": "AWS::URLSuffix"
+        },
+        "/",
+        {
+         "Ref": "NodeApiRepository1C5E4D7A"
+        },
+        ":",
+        {
+         "Ref": "NodeImageTag"
+        }
+       ]
+      ]
+     }
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_ENV": "production"
+     }
+    },
+    "FunctionName": "interseguro-node-api",
+    "MemorySize": 1024,
+    "PackageType": "Image",
+    "Role": {
+     "Fn::GetAtt": [
+      "NodeApiLambdaServiceRole649EDC8E",
+      "Arn"
+     ]
+    },
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "NodeApiLambdaServiceRole649EDC8E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiLambda/Resource"
+   }
+  },
+  "NodeApiGatewayA68DDF45": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "interseguro-node-api-gateway"
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Resource"
+   }
+  },
+  "NodeApiGatewayCloudWatchRoleE9E53AA3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/CloudWatchRole/Resource"
+   }
+  },
+  "NodeApiGatewayAccount9C891EA2": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "NodeApiGatewayCloudWatchRoleE9E53AA3",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "NodeApiGatewayA68DDF45"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Account"
+   }
+  },
+  "NodeApiGatewayDeployment09120ED82f245540e74f02b9a79c2713688ab95f": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "NodeApiGatewayA68DDF45"
+    }
+   },
+   "DependsOn": [
+    "NodeApiGatewayproxyANY6E0E1EE3",
+    "NodeApiGatewayproxyOPTIONS95C563CF",
+    "NodeApiGatewayproxyB53DC83D",
+    "NodeApiGatewayANYF6F7E7CD",
+    "NodeApiGatewayOPTIONS5AAC5FA8"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "NodeApiGatewayDeploymentStageprodA934CAF4": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "NodeApiGatewayDeployment09120ED82f245540e74f02b9a79c2713688ab95f"
+    },
+    "RestApiId": {
+     "Ref": "NodeApiGatewayA68DDF45"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "NodeApiGatewayAccount9C891EA2"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/DeploymentStage.prod/Resource"
+   }
+  },
+  "NodeApiGatewayOPTIONS5AAC5FA8": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "NodeApiGatewayA68DDF45",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "NodeApiGatewayA68DDF45"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Default/OPTIONS/Resource"
+   }
+  },
+  "NodeApiGatewayproxyB53DC83D": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "NodeApiGatewayA68DDF45",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "{proxy+}",
+    "RestApiId": {
+     "Ref": "NodeApiGatewayA68DDF45"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Default/{proxy+}/Resource"
+   }
+  },
+  "NodeApiGatewayproxyOPTIONS95C563CF": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "NodeApiGatewayproxyB53DC83D"
+    },
+    "RestApiId": {
+     "Ref": "NodeApiGatewayA68DDF45"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Default/{proxy+}/OPTIONS/Resource"
+   }
+  },
+  "NodeApiGatewayproxyANYApiPermissionInterseguroPlatformStackNodeApiGateway50F5BFB9ANYproxyE3D4736C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "NodeApiLambdaE1B53810",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-2:889052531878:",
+       {
+        "Ref": "NodeApiGatewayA68DDF45"
+       },
+       "/",
+       {
+        "Ref": "NodeApiGatewayDeploymentStageprodA934CAF4"
+       },
+       "/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Default/{proxy+}/ANY/ApiPermission.InterseguroPlatformStackNodeApiGateway50F5BFB9.ANY..{proxy+}"
+   }
+  },
+  "NodeApiGatewayproxyANYApiPermissionTestInterseguroPlatformStackNodeApiGateway50F5BFB9ANYproxyBC09672D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "NodeApiLambdaE1B53810",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-2:889052531878:",
+       {
+        "Ref": "NodeApiGatewayA68DDF45"
+       },
+       "/test-invoke-stage/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Default/{proxy+}/ANY/ApiPermission.Test.InterseguroPlatformStackNodeApiGateway50F5BFB9.ANY..{proxy+}"
+   }
+  },
+  "NodeApiGatewayproxyANY6E0E1EE3": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "ANY",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "NodeApiLambdaE1B53810",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "NodeApiGatewayproxyB53DC83D"
+    },
+    "RestApiId": {
+     "Ref": "NodeApiGatewayA68DDF45"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Default/{proxy+}/ANY/Resource"
+   }
+  },
+  "NodeApiGatewayANYApiPermissionInterseguroPlatformStackNodeApiGateway50F5BFB9ANY83F5ED2D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "NodeApiLambdaE1B53810",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-2:889052531878:",
+       {
+        "Ref": "NodeApiGatewayA68DDF45"
+       },
+       "/",
+       {
+        "Ref": "NodeApiGatewayDeploymentStageprodA934CAF4"
+       },
+       "/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Default/ANY/ApiPermission.InterseguroPlatformStackNodeApiGateway50F5BFB9.ANY.."
+   }
+  },
+  "NodeApiGatewayANYApiPermissionTestInterseguroPlatformStackNodeApiGateway50F5BFB9ANYEE4B6CFE": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "NodeApiLambdaE1B53810",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-2:889052531878:",
+       {
+        "Ref": "NodeApiGatewayA68DDF45"
+       },
+       "/test-invoke-stage/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Default/ANY/ApiPermission.Test.InterseguroPlatformStackNodeApiGateway50F5BFB9.ANY.."
+   }
+  },
+  "NodeApiGatewayANYF6F7E7CD": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "ANY",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "NodeApiLambdaE1B53810",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "NodeApiGatewayA68DDF45",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "NodeApiGatewayA68DDF45"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/NodeApiGateway/Default/ANY/Resource"
+   }
+  },
+  "GoApiLambdaServiceRole64EFB25E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiLambda/ServiceRole/Resource"
+   }
+  },
+  "GoApiLambda7DADF21C": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "ImageUri": {
+      "Fn::Join": [
+       "",
+       [
+        {
+         "Fn::Select": [
+          4,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::GetAtt": [
+              "GoApiRepository7A7A239D",
+              "Arn"
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        ".dkr.ecr.",
+        {
+         "Fn::Select": [
+          3,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::GetAtt": [
+              "GoApiRepository7A7A239D",
+              "Arn"
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        ".",
+        {
+         "Ref": "AWS::URLSuffix"
+        },
+        "/",
+        {
+         "Ref": "GoApiRepository7A7A239D"
+        },
+        ":",
+        {
+         "Ref": "GoImageTag"
+        }
+       ]
+      ]
+     }
+    },
+    "Environment": {
+     "Variables": {
+      "NODE_SERVICE_URL": {
+       "Fn::Join": [
+        "",
+        [
+         "https://",
+         {
+          "Ref": "NodeApiGatewayA68DDF45"
+         },
+         ".execute-api.us-east-2.",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/",
+         {
+          "Ref": "NodeApiGatewayDeploymentStageprodA934CAF4"
+         },
+         "/api"
+        ]
+       ]
+      },
+      "JWT_SECRET": {
+       "Ref": "JwtSecret"
+      },
+      "ADMIN_USERNAME": {
+       "Ref": "AdminUsername"
+      },
+      "ADMIN_PASSWORD": {
+       "Ref": "AdminPassword"
+      }
+     }
+    },
+    "FunctionName": "interseguro-go-api",
+    "MemorySize": 1024,
+    "PackageType": "Image",
+    "Role": {
+     "Fn::GetAtt": [
+      "GoApiLambdaServiceRole64EFB25E",
+      "Arn"
+     ]
+    },
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "GoApiLambdaServiceRole64EFB25E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiLambda/Resource"
+   }
+  },
+  "GoApiGatewayEE2E9EDE": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "interseguro-go-api-gateway"
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Resource"
+   }
+  },
+  "GoApiGatewayCloudWatchRole5D734186": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/CloudWatchRole/Resource"
+   }
+  },
+  "GoApiGatewayAccount592FC239": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "GoApiGatewayCloudWatchRole5D734186",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "GoApiGatewayEE2E9EDE"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Account"
+   }
+  },
+  "GoApiGatewayDeploymentBA790FFF847a8d7fcdfe067f278c7859cd39122c": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "GoApiGatewayEE2E9EDE"
+    }
+   },
+   "DependsOn": [
+    "GoApiGatewayproxyANY06C20717",
+    "GoApiGatewayproxyOPTIONSDD1AD874",
+    "GoApiGatewayproxyE623EFA5",
+    "GoApiGatewayANY9445D113",
+    "GoApiGatewayOPTIONS31167D07"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "GoApiGatewayDeploymentStageprod13F3A947": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "GoApiGatewayDeploymentBA790FFF847a8d7fcdfe067f278c7859cd39122c"
+    },
+    "RestApiId": {
+     "Ref": "GoApiGatewayEE2E9EDE"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "GoApiGatewayAccount592FC239"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/DeploymentStage.prod/Resource"
+   }
+  },
+  "GoApiGatewayOPTIONS31167D07": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "GoApiGatewayEE2E9EDE",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "GoApiGatewayEE2E9EDE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Default/OPTIONS/Resource"
+   }
+  },
+  "GoApiGatewayproxyE623EFA5": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "GoApiGatewayEE2E9EDE",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "{proxy+}",
+    "RestApiId": {
+     "Ref": "GoApiGatewayEE2E9EDE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Default/{proxy+}/Resource"
+   }
+  },
+  "GoApiGatewayproxyOPTIONSDD1AD874": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "GoApiGatewayproxyE623EFA5"
+    },
+    "RestApiId": {
+     "Ref": "GoApiGatewayEE2E9EDE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Default/{proxy+}/OPTIONS/Resource"
+   }
+  },
+  "GoApiGatewayproxyANYApiPermissionInterseguroPlatformStackGoApiGatewayAFBAC166ANYproxyAC009B41": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GoApiLambda7DADF21C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-2:889052531878:",
+       {
+        "Ref": "GoApiGatewayEE2E9EDE"
+       },
+       "/",
+       {
+        "Ref": "GoApiGatewayDeploymentStageprod13F3A947"
+       },
+       "/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Default/{proxy+}/ANY/ApiPermission.InterseguroPlatformStackGoApiGatewayAFBAC166.ANY..{proxy+}"
+   }
+  },
+  "GoApiGatewayproxyANYApiPermissionTestInterseguroPlatformStackGoApiGatewayAFBAC166ANYproxy85D0DA12": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GoApiLambda7DADF21C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-2:889052531878:",
+       {
+        "Ref": "GoApiGatewayEE2E9EDE"
+       },
+       "/test-invoke-stage/*/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Default/{proxy+}/ANY/ApiPermission.Test.InterseguroPlatformStackGoApiGatewayAFBAC166.ANY..{proxy+}"
+   }
+  },
+  "GoApiGatewayproxyANY06C20717": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "ANY",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "GoApiLambda7DADF21C",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "GoApiGatewayproxyE623EFA5"
+    },
+    "RestApiId": {
+     "Ref": "GoApiGatewayEE2E9EDE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Default/{proxy+}/ANY/Resource"
+   }
+  },
+  "GoApiGatewayANYApiPermissionInterseguroPlatformStackGoApiGatewayAFBAC166ANYE00AADE9": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GoApiLambda7DADF21C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-2:889052531878:",
+       {
+        "Ref": "GoApiGatewayEE2E9EDE"
+       },
+       "/",
+       {
+        "Ref": "GoApiGatewayDeploymentStageprod13F3A947"
+       },
+       "/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Default/ANY/ApiPermission.InterseguroPlatformStackGoApiGatewayAFBAC166.ANY.."
+   }
+  },
+  "GoApiGatewayANYApiPermissionTestInterseguroPlatformStackGoApiGatewayAFBAC166ANY9A8E8AEC": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GoApiLambda7DADF21C",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-east-2:889052531878:",
+       {
+        "Ref": "GoApiGatewayEE2E9EDE"
+       },
+       "/test-invoke-stage/*/"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Default/ANY/ApiPermission.Test.InterseguroPlatformStackGoApiGatewayAFBAC166.ANY.."
+   }
+  },
+  "GoApiGatewayANY9445D113": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "ANY",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:us-east-2:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "GoApiLambda7DADF21C",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "GoApiGatewayEE2E9EDE",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "GoApiGatewayEE2E9EDE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/GoApiGateway/Default/ANY/Resource"
+   }
+  },
+  "FrontendBucketEFE2E19C": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "aws-cdk:cr-owned:97ca5fdf",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/FrontendBucket/Resource"
+   }
+  },
+  "FrontendBucketPolicy1DFF75D9": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "FrontendBucketEFE2E19C"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "FrontendBucketEFE2E19C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "FrontendBucketEFE2E19C",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "FrontendBucketEFE2E19C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "FrontendBucketEFE2E19C",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "s3:GetObject",
+       "Condition": {
+        "StringEquals": {
+         "AWS:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":cloudfront::",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":distribution/",
+            {
+             "Ref": "FrontendDistributionE6EAF405"
+            }
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "cloudfront.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "FrontendBucketEFE2E19C",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/FrontendBucket/Policy/Resource"
+   }
+  },
+  "FrontendBucketAutoDeleteObjectsCustomResourceDB860B32": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "FrontendBucketEFE2E19C"
+    }
+   },
+   "DependsOn": [
+    "FrontendBucketPolicy1DFF75D9"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/FrontendBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-889052531878-us-east-2",
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs24.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "FrontendBucketEFE2E19C"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+    "aws:asset:property": "Code"
+   }
+  },
+  "FrontendDistributionOrigin1S3OriginAccessControl51A3EFC6": {
+   "Type": "AWS::CloudFront::OriginAccessControl",
+   "Properties": {
+    "OriginAccessControlConfig": {
+     "Name": "InterseguroPlatformStackFronOrigin1S3OriginAccessControlCBB2E1B5",
+     "OriginAccessControlOriginType": "s3",
+     "SigningBehavior": "always",
+     "SigningProtocol": "sigv4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/FrontendDistribution/Origin1/S3OriginAccessControl/Resource"
+   }
+  },
+  "FrontendDistributionE6EAF405": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "CustomErrorResponses": [
+      {
+       "ErrorCachingMinTTL": 60,
+       "ErrorCode": 403,
+       "ResponseCode": 200,
+       "ResponsePagePath": "/index.html"
+      },
+      {
+       "ErrorCachingMinTTL": 60,
+       "ErrorCode": 404,
+       "ResponseCode": 200,
+       "ResponsePagePath": "/index.html"
+      }
+     ],
+     "DefaultCacheBehavior": {
+      "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+      "Compress": true,
+      "TargetOriginId": "InterseguroPlatformStackFrontendDistributionOrigin105711592",
+      "ViewerProtocolPolicy": "redirect-to-https"
+     },
+     "DefaultRootObject": "index.html",
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Origins": [
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "FrontendBucketEFE2E19C",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "InterseguroPlatformStackFrontendDistributionOrigin105711592",
+       "OriginAccessControlId": {
+        "Fn::GetAtt": [
+         "FrontendDistributionOrigin1S3OriginAccessControl51A3EFC6",
+         "Id"
+        ]
+       },
+       "S3OriginConfig": {
+        "OriginAccessIdentity": ""
+       }
+      }
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/FrontendDistribution/Resource"
+   }
+  },
+  "DeployFrontendAwsCliLayerD774ED8F": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "Content": {
+     "S3Bucket": "cdk-hnb659fds-assets-889052531878-us-east-2",
+     "S3Key": "98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec.zip"
+    },
+    "Description": "/opt/awscli/aws"
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/DeployFrontend/AwsCliLayer/Resource",
+    "aws:asset:path": "asset.98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec.zip",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Content"
+   }
+  },
+  "DeployFrontendCustomResource3E02C3B7": {
+   "Type": "Custom::CDKBucketDeployment",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+      "Arn"
+     ]
+    },
+    "SourceBucketNames": [
+     "cdk-hnb659fds-assets-889052531878-us-east-2"
+    ],
+    "SourceObjectKeys": [
+     "52ac28fc4e6bf8901cb7027672db1051e2f2c3bda73481d7d4363bf7b28f04b8.zip"
+    ],
+    "DestinationBucketName": {
+     "Ref": "FrontendBucketEFE2E19C"
+    },
+    "WaitForDistributionInvalidation": true,
+    "Prune": true,
+    "DistributionId": {
+     "Ref": "FrontendDistributionE6EAF405"
+    },
+    "DistributionPaths": [
+     "/*"
+    ],
+    "OutputObjectKeys": true
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/DeployFrontend/CustomResource/Default"
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource"
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::cdk-hnb659fds-assets-889052531878-us-east-2"
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::cdk-hnb659fds-assets-889052531878-us-east-2/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "FrontendBucketEFE2E19C",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "FrontendBucketEFE2E19C",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "cloudfront:GetInvalidation",
+        "cloudfront:CreateInvalidation"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+    "Roles": [
+     {
+      "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-889052531878-us-east-2",
+     "S3Key": "97e9ebf0b174a5c8f7faa505739022b7f509edddffcab9211dcd08b759944c4f.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AWS_CA_BUNDLE": "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "DeployFrontendAwsCliLayerD774ED8F"
+     }
+    ],
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.13",
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource",
+    "aws:asset:path": "asset.97e9ebf0b174a5c8f7faa505739022b7f509edddffcab9211dcd08b759944c4f",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/5VSwW7bMAz9luasaF2y9bCbm2DAgA41bGCXYQgUmfWYyJIhUnUNwf8+SE4bo9gOO/FRpMjHR27k5u5O3t6ogda6Oa8NHmWsWemz2D3ZUnnVAYMXaqBDBO1lrKB3hOz8mDKu3iSM6o6NknHv9Bn8t0618DVYzehsSl3iEnyHRBfvQY3gf4DPfo22NcDumv8KJoGqk7FyBnLrZEtnUGcmM5qE6rFVDIMaZXzIjCogLnqc6b7BQmsXLIs99MaNHVhOrwuvZtXmRjOogFzwGu4VgfgO/Ns1KXhBpXcv42vKpVPGk6CtjPdBnyE3mNHPuOrwBe3qy2qpfFKZtjKHSM6pRWC3BwMMj8cTaKbV9EvMoevwS/8/as8falYMaeRF6TTlJLRxoXnyzrKMeyT2eAx5JfX20WOLSUQg2jnL3plE5B/Py89JkUNs3oS+cFkor4iASRbJTFMuG7gPLHaB2HV/k/ldqPTuGRvweVm5Tloi2vZypAeTTu6gBtIGZTHQzmC+wklY14A80YfnzSf58bO8vTkR4toHy9iBrGb7Bx9/0aw3AwAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "InterseguroPlatformStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "NodeApiGatewayEndpoint474E6516": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "NodeApiGatewayA68DDF45"
+      },
+      ".execute-api.us-east-2.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "NodeApiGatewayDeploymentStageprodA934CAF4"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "GoApiGatewayEndpoint56C101E7": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "GoApiGatewayEE2E9EDE"
+      },
+      ".execute-api.us-east-2.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "GoApiGatewayDeploymentStageprod13F3A947"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "GoApiRepositoryUri": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Fn::Select": [
+        4,
+        {
+         "Fn::Split": [
+          ":",
+          {
+           "Fn::GetAtt": [
+            "GoApiRepository7A7A239D",
+            "Arn"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      ".dkr.ecr.",
+      {
+       "Fn::Select": [
+        3,
+        {
+         "Fn::Split": [
+          ":",
+          {
+           "Fn::GetAtt": [
+            "GoApiRepository7A7A239D",
+            "Arn"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "GoApiRepository7A7A239D"
+      }
+     ]
+    ]
+   }
+  },
+  "NodeApiRepositoryUri": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Fn::Select": [
+        4,
+        {
+         "Fn::Split": [
+          ":",
+          {
+           "Fn::GetAtt": [
+            "NodeApiRepository1C5E4D7A",
+            "Arn"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      ".dkr.ecr.",
+      {
+       "Fn::Select": [
+        3,
+        {
+         "Fn::Split": [
+          ":",
+          {
+           "Fn::GetAtt": [
+            "NodeApiRepository1C5E4D7A",
+            "Arn"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "NodeApiRepository1C5E4D7A"
+      }
+     ]
+    ]
+   }
+  },
+  "GoApiGatewayUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "GoApiGatewayEE2E9EDE"
+      },
+      ".execute-api.us-east-2.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "GoApiGatewayDeploymentStageprod13F3A947"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "NodeApiGatewayUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "NodeApiGatewayA68DDF45"
+      },
+      ".execute-api.us-east-2.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "NodeApiGatewayDeploymentStageprodA934CAF4"
+      },
+      "/"
+     ]
+    ]
+   }
+  },
+  "FrontendCloudFrontUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Fn::GetAtt": [
+        "FrontendDistributionE6EAF405",
+        "DomainName"
+       ]
+      }
+     ]
+    ]
+   }
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

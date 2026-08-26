@@ -1,0 +1,9 @@
+{
+  "status": 400,
+  "body": {
+    "error": "Validación fallida",
+    "details": [
+      "R es obligatoria"
+    ]
+  }
+}

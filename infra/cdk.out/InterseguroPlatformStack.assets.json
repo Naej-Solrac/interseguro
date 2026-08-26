@@ -1,0 +1,81 @@
+{
+  "version": "54.0.0",
+  "files": {
+    "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6": {
+      "displayName": "InterseguroPlatformStack/Custom::S3AutoDeleteObjectsCustomResourceProvider Code",
+      "source": {
+        "path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "889052531878-us-east-2-4f5a9509": {
+          "bucketName": "cdk-hnb659fds-assets-889052531878-us-east-2",
+          "objectKey": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip",
+          "region": "us-east-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::889052531878:role/cdk-hnb659fds-file-publishing-role-889052531878-us-east-2"
+        }
+      }
+    },
+    "98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec": {
+      "displayName": "DeployFrontend/AwsCliLayer/Code",
+      "source": {
+        "path": "asset.98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec.zip",
+        "packaging": "file"
+      },
+      "destinations": {
+        "889052531878-us-east-2-be193600": {
+          "bucketName": "cdk-hnb659fds-assets-889052531878-us-east-2",
+          "objectKey": "98f62bef9320f8c0a0a7be21d7c746f069131f196f51ffe3008a6bb730b368ec.zip",
+          "region": "us-east-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::889052531878:role/cdk-hnb659fds-file-publishing-role-889052531878-us-east-2"
+        }
+      }
+    },
+    "97e9ebf0b174a5c8f7faa505739022b7f509edddffcab9211dcd08b759944c4f": {
+      "displayName": "Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code",
+      "source": {
+        "path": "asset.97e9ebf0b174a5c8f7faa505739022b7f509edddffcab9211dcd08b759944c4f",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "889052531878-us-east-2-d8be43cc": {
+          "bucketName": "cdk-hnb659fds-assets-889052531878-us-east-2",
+          "objectKey": "97e9ebf0b174a5c8f7faa505739022b7f509edddffcab9211dcd08b759944c4f.zip",
+          "region": "us-east-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::889052531878:role/cdk-hnb659fds-file-publishing-role-889052531878-us-east-2"
+        }
+      }
+    },
+    "52ac28fc4e6bf8901cb7027672db1051e2f2c3bda73481d7d4363bf7b28f04b8": {
+      "displayName": "DeployFrontend/Asset1",
+      "source": {
+        "path": "asset.52ac28fc4e6bf8901cb7027672db1051e2f2c3bda73481d7d4363bf7b28f04b8",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "889052531878-us-east-2-f3138e01": {
+          "bucketName": "cdk-hnb659fds-assets-889052531878-us-east-2",
+          "objectKey": "52ac28fc4e6bf8901cb7027672db1051e2f2c3bda73481d7d4363bf7b28f04b8.zip",
+          "region": "us-east-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::889052531878:role/cdk-hnb659fds-file-publishing-role-889052531878-us-east-2"
+        }
+      }
+    },
+    "f46195d6732f4436d64eda28a80d49dd7cf606c392b854200f251d9a487baee1": {
+      "displayName": "InterseguroPlatformStack Template",
+      "source": {
+        "path": "InterseguroPlatformStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "889052531878-us-east-2-2455f083": {
+          "bucketName": "cdk-hnb659fds-assets-889052531878-us-east-2",
+          "objectKey": "f46195d6732f4436d64eda28a80d49dd7cf606c392b854200f251d9a487baee1.json",
+          "region": "us-east-2",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::889052531878:role/cdk-hnb659fds-file-publishing-role-889052531878-us-east-2"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

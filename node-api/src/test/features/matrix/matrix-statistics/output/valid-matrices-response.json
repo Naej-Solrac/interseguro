@@ -1,0 +1,27 @@
+{
+  "status": 200,
+  "body": {
+    "Q": {
+      "max": 1,
+      "min": 0,
+      "avg": 0.5,
+      "sum": 2,
+      "isDiagonal": true
+    },
+    "R": {
+      "max": 5,
+      "min": 2,
+      "avg": 3.5,
+      "sum": 14,
+      "isDiagonal": false
+    },
+    "summary": {
+      "max": 5,
+      "min": 0,
+      "avg": 2,
+      "sum": 16,
+      "isDiagonal": false
+    },
+    "hasAnyDiagonalMatrix": true
+  }
+}

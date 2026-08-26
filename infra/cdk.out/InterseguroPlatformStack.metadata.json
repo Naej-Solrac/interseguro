@@ -1,0 +1,888 @@
+{
+  "/InterseguroPlatformStack": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/JwtSecret": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JwtSecret"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:15:23)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/AdminUsername": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AdminUsername"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:21:27)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/AdminPassword": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AdminPassword"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:27:27)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoImageTag": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoImageTag"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:33:24)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeImageTag": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeImageTag"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:39:26)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/InterseguroPlatformStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-singleton",
+      "data": true
+    },
+    {
+      "type": "aws:cdk:is-custom-resource-handler-runtime-family",
+      "data": 2
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiRepositoryUri": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiRepositoryUri"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:156:5)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiRepositoryUri": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiRepositoryUri"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:160:5)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGatewayUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:164:5)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGatewayUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:168:5)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/FrontendCloudFrontUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendCloudFrontUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:172:5)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiRepository/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiRepository7A7A239D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Repository2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:45:23)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiRepository/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiRepository1C5E4D7A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Repository2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:52:25)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiLambda/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiLambdaE1B53810"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new DockerImageFunction2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:59:27)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayA68DDF45"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:72:28)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Account": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayAccount9C891EA2"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:72:28)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Endpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayEndpoint474E6516"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:72:28)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiLambda/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiLambda7DADF21C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new DockerImageFunction2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:87:25)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayEE2E9EDE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:103:26)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Account": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayAccount592FC239"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:103:26)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Endpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayEndpoint56C101E7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:103:26)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/FrontendBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendBucketEFE2E19C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:117:28)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/InterseguroPlatformStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/FrontendDistribution/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendDistributionE6EAF405"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Distribution2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:126:26)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new BucketDeployment2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:148:5)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiLambda/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiLambdaServiceRole649EDC8E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new DockerImageFunction2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:59:27)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/CloudWatchRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayCloudWatchRoleE9E53AA3"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:72:28)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Deployment/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayDeployment09120ED82f245540e74f02b9a79c2713688ab95f"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:72:28)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/DeploymentStage.prod/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayDeploymentStageprodA934CAF4"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:72:28)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiLambda/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiLambdaServiceRole64EFB25E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new DockerImageFunction2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:87:25)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/CloudWatchRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayCloudWatchRole5D734186"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:103:26)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Deployment/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayDeploymentBA790FFF847a8d7fcdfe067f278c7859cd39122c"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:103:26)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/DeploymentStage.prod/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayDeploymentStageprod13F3A947"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:103:26)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/FrontendBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendBucketPolicy1DFF75D9"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:117:28)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)"
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/InterseguroPlatformStack/FrontendBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendBucketAutoDeleteObjectsCustomResourceDB860B32"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/DeployFrontend/AwsCliLayer/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DeployFrontendAwsCliLayerD774ED8F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new BucketDeployment2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:148:5)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/DeployFrontend/CustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DeployFrontendCustomResource3E02C3B7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new BucketDeployment2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:148:5)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals, ts-node..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Default/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayOPTIONS5AAC5FA8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Default/{proxy+}/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayproxyB53DC83D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:72:28)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Default/ANY/ApiPermission.InterseguroPlatformStackNodeApiGateway50F5BFB9.ANY..": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayANYApiPermissionInterseguroPlatformStackNodeApiGateway50F5BFB9ANY83F5ED2D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Default/ANY/ApiPermission.Test.InterseguroPlatformStackNodeApiGateway50F5BFB9.ANY..": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayANYApiPermissionTestInterseguroPlatformStackNodeApiGateway50F5BFB9ANYEE4B6CFE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Default/ANY/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayANYF6F7E7CD"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Default/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayOPTIONS31167D07"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Default/{proxy+}/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayproxyE623EFA5"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LambdaRestApi2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:103:26)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Default/ANY/ApiPermission.InterseguroPlatformStackGoApiGatewayAFBAC166.ANY..": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayANYApiPermissionInterseguroPlatformStackGoApiGatewayAFBAC166ANYE00AADE9"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Default/ANY/ApiPermission.Test.InterseguroPlatformStackGoApiGatewayAFBAC166.ANY..": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayANYApiPermissionTestInterseguroPlatformStackGoApiGatewayAFBAC166ANY9A8E8AEC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Default/ANY/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayANY9445D113"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/FrontendDistribution/Origin1/S3OriginAccessControl/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendDistributionOrigin1S3OriginAccessControl51A3EFC6"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Distribution2 in aws-cdk-lib...",
+        "new InterseguroPlatformStack (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\lib\\interseguro-platform.stack.ts:126:26)",
+        "<anonymous> (C:\\Users\\xt11204\\Documents\\Interseguro\\infra\\bin\\infra.ts:13:1)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Default/{proxy+}/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayproxyOPTIONS95C563CF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Default/{proxy+}/ANY/ApiPermission.InterseguroPlatformStackNodeApiGateway50F5BFB9.ANY..{proxy+}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayproxyANYApiPermissionInterseguroPlatformStackNodeApiGateway50F5BFB9ANYproxyE3D4736C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Default/{proxy+}/ANY/ApiPermission.Test.InterseguroPlatformStackNodeApiGateway50F5BFB9.ANY..{proxy+}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayproxyANYApiPermissionTestInterseguroPlatformStackNodeApiGateway50F5BFB9ANYproxyBC09672D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/NodeApiGateway/Default/{proxy+}/ANY/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NodeApiGatewayproxyANY6E0E1EE3"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Default/{proxy+}/OPTIONS/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayproxyOPTIONSDD1AD874"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Default/{proxy+}/ANY/ApiPermission.InterseguroPlatformStackGoApiGatewayAFBAC166.ANY..{proxy+}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayproxyANYApiPermissionInterseguroPlatformStackGoApiGatewayAFBAC166ANYproxyAC009B41"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Default/{proxy+}/ANY/ApiPermission.Test.InterseguroPlatformStackGoApiGatewayAFBAC166.ANY..{proxy+}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayproxyANYApiPermissionTestInterseguroPlatformStackGoApiGatewayAFBAC166ANYproxy85D0DA12"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/InterseguroPlatformStack/GoApiGateway/Default/{proxy+}/ANY/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GoApiGatewayproxyANY06C20717"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ]
+}
